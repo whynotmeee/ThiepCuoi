@@ -14,6 +14,7 @@ import Gifts from "@/components/Gifts";
 import Rsvp from "@/components/Rsvp";
 import Footer from "@/components/Footer";
 import MusicPlayer from "@/components/MusicPlayer";
+import AutoScroll from "@/components/AutoScroll";
 import config from "@/data/config";
 
 export default function Home() {
@@ -42,6 +43,7 @@ export default function Home() {
           <Footer />
         </div>
         <MusicPlayer />
+        <AutoScroll />
       </Invitation>
     </main>
   );

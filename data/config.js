@@ -103,8 +103,8 @@ export const config = {
 
   // --- Nhạc nền (đặt file trong /public, ví dụ "/music.mp3") ---
   music: {
-    src: "",
-    title: "Close To You",
+    src: "/i-do.mp3",
+    title: "I Do",
   },
 
   // --- Lời chúc chạy (giống thanh lời chúc của mẫu) ---
