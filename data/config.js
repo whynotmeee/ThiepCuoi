@@ -25,26 +25,51 @@ export const config = {
     photo: "",
   },
 
+  // Thứ tự hiển thị tên ngoài bìa: "bride" (cô dâu trước) hoặc "groom"
+  nameOrder: "bride",
+
   // --- Ngày & giờ cưới (định dạng: YYYY-MM-DDTHH:mm:ss) ---
   weddingDate: "2026-12-20T11:00:00",
   // Ngày âm lịch (hiển thị text, tuỳ chọn)
   lunarDate: "Mùng 2 tháng 11 năm Bính Ngọ",
 
+  // --- Ảnh nền trang bìa (đặt trong /public, ví dụ "/cover.jpg"). Để trống dùng gradient ---
+  coverImage: "",
+
   // --- Lời ngỏ ---
   intro:
-    "Trân trọng kính mời bạn đến chung vui trong ngày trọng đại của chúng tôi. Sự hiện diện của bạn là niềm vinh hạnh cho gia đình chúng tôi.",
+    "Gửi đến bạn tấm thiệp cưới đầy yêu thương. Những ai nhận được lời mời này đều là những người đặc biệt với chúng mình. Mong bạn và gia đình sẽ đến chung vui, cùng chứng kiến khoảnh khắc hạnh phúc nhất của hai đứa. Cảm ơn vì đã luôn bên cạnh và yêu thương.",
+
+  // --- Các câu thơ / trích dẫn điện ảnh xen giữa các phần ---
+  quotes: [
+    {
+      big: ["Fall", "in", "Love"],
+      vi: "Đi một vòng lớn rồi vẫn gặp nhau, từ đó thế gian bỗng hoá dịu dàng.",
+      en: "My heart, the bird of the wilderness, has found its sky in your eyes.",
+    },
+    {
+      big: ["My", "Love", "Forever"],
+      vi: "Có lẽ thế gian này có vô vàn điều tươi đẹp, nhưng trong lòng em, đẹp nhất vẫn chỉ có anh.",
+      en: "I love three things in this world: sun, moon and you. Sun for morning, moon for night, and you forever.",
+    },
+    {
+      big: ["Sweet", "Wedding"],
+      vi: "Hạnh phúc lớn nhất chính là được nắm tay nhau, cùng đi hết cuộc đời lãng mạn này.",
+      en: "Sun, moon and you — you forever.",
+    },
+  ],
 
   // --- Câu chuyện tình yêu (mỗi mốc là 1 phần) ---
   story: [
     {
       title: "Lần đầu gặp gỡ",
       date: "2021",
-      text: "Chúng tôi tình cờ gặp nhau trong một buổi chiều mùa thu, và một câu chuyện đẹp đã bắt đầu.",
+      text: "Chúng mình tình cờ gặp nhau trong một buổi chiều mùa thu, và một câu chuyện đẹp đã bắt đầu.",
     },
     {
       title: "Hẹn hò",
       date: "2022",
-      text: "Những chuyến đi, những bữa cơm, những buổi tối trò chuyện đã khiến chúng tôi hiểu rằng đây là người mình muốn đi cùng cả đời.",
+      text: "Những chuyến đi, những bữa cơm, những buổi tối trò chuyện đã khiến chúng mình hiểu rằng đây là người mình muốn đi cùng cả đời.",
     },
     {
       title: "Lời cầu hôn",
@@ -54,7 +79,7 @@ export const config = {
     {
       title: "Về chung một nhà",
       date: "2026",
-      text: "Và hôm nay, chúng tôi chính thức nắm tay nhau bước vào một hành trình mới.",
+      text: "Và hôm nay, chúng mình chính thức nắm tay nhau bước vào một hành trình mới.",
     },
   ],
 
@@ -102,8 +127,9 @@ export const config = {
     title: "Nhạc nền",
   },
 
-  // --- Màu chủ đạo & lời cảm ơn ---
-  thankYou: "Cảm ơn bạn đã dành thời gian ghé thăm thiệp cưới của chúng tôi!",
+  // --- Lời cảm ơn & hashtag ---
+  thankYou:
+    "Cảm ơn bạn đã dành thời gian ghé thăm thiệp cưới của chúng mình. Rất mong được gặp bạn trong ngày vui này!",
   hashtag: "#DungHang2026",
 };
 

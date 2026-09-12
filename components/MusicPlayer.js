@@ -12,6 +12,13 @@ export default function MusicPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.5;
+
+    // Tự phát khi người dùng "mở thiệp" (đây là tương tác người dùng nên trình duyệt cho phép)
+    const onOpen = () => {
+      audio.play().then(() => setPlaying(true)).catch(() => {});
+    };
+    window.addEventListener("invitation:open", onOpen);
+    return () => window.removeEventListener("invitation:open", onOpen);
   }, []);
 
   const toggle = () => {
