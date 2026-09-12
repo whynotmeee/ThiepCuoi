@@ -20,15 +20,16 @@ export default function Gifts() {
     <section className="bg-sage/10 px-6 py-16 md:py-24">
       <div className="mx-auto max-w-4xl">
         <Reveal className="text-center">
-          <p className="font-sans text-sm uppercase tracking-[0.3em] text-rosegold">
-            Mừng cưới
-          </p>
+          <div className="mx-auto mb-4 flex h-16 w-16 animate-wobble items-center justify-center rounded-2xl bg-champagne/15 text-3xl text-champagne">
+            🎁
+          </div>
+          <p className="font-serif text-2xl text-ink">Hộp quà cưới</p>
           <div className="divider my-5">
             <span className="font-serif text-gold">♥</span>
           </div>
           <p className="mx-auto max-w-xl font-serif text-lg text-ink/70">
             Sự hiện diện của bạn là món quà quý giá nhất. Nếu muốn gửi lời chúc
-            qua chuyển khoản, đây là thông tin của chúng tôi.
+            qua chuyển khoản, đây là thông tin của bọn mình.
           </p>
         </Reveal>
 

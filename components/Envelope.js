@@ -29,36 +29,25 @@ export default function Envelope({ onOpen }) {
         transform: opening ? "scale(1.05)" : "scale(1)",
       }}
     >
-      <p
-        className={`font-sans text-xs uppercase tracking-[0.5em] ${
-          coverImage ? "text-white/80" : "text-rosegold"
+      <h1
+        className={`big-word font-script text-5xl leading-tight md:text-7xl ${
+          coverImage ? "text-white" : "text-ink"
         }`}
       >
-        Wedding Invitation
-      </p>
+        Wedding
+        <br />
+        Invitation
+      </h1>
 
-      <div className="my-8 flex flex-col items-center gap-1">
-        <h1
-          className={`font-script text-6xl md:text-8xl ${
-            coverImage ? "text-white" : "text-rosegold"
+      <div className="my-8 flex flex-col items-center gap-2">
+        <span className={coverImage ? "text-white/80" : "text-champagne"}>♥</span>
+        <p
+          className={`font-serif text-3xl md:text-4xl ${
+            coverImage ? "text-white" : "text-champagne"
           }`}
         >
-          {first}
-        </h1>
-        <span
-          className={`font-script text-3xl md:text-5xl ${
-            coverImage ? "text-white/80" : "text-gold"
-          }`}
-        >
-          &amp;
-        </span>
-        <h1
-          className={`font-script text-6xl md:text-8xl ${
-            coverImage ? "text-white" : "text-rosegold"
-          }`}
-        >
-          {second}
-        </h1>
+          {first} &amp; {second}
+        </p>
       </div>
 
       <button

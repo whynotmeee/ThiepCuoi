@@ -1,5 +1,10 @@
 import "./globals.css";
-import { Cormorant_Garamond, Great_Vibes, Jost } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Great_Vibes,
+  Quicksand,
+  Playfair_Display,
+} from "next/font/google";
 import config from "@/data/config";
 
 const cormorant = Cormorant_Garamond({
@@ -16,10 +21,18 @@ const greatVibes = Great_Vibes({
   display: "swap",
 });
 
-const jost = Jost({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
+const quicksand = Quicksand({
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-jost",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -43,7 +56,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="vi">
       <body
-        className={`${cormorant.variable} ${greatVibes.variable} ${jost.variable} font-sans antialiased`}
+        className={`${cormorant.variable} ${greatVibes.variable} ${quicksand.variable} ${playfair.variable} font-sans antialiased`}
       >
         {children}
       </body>

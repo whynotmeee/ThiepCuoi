@@ -1,51 +1,54 @@
 import Reveal from "./Reveal";
 
-// Section chữ lớn điện ảnh + câu thơ tình (phong cách cinelove)
+// Section câu thơ tình + (tuỳ chọn) khối chữ in hoa lớn kiểu điện ảnh.
 export default function Quote({ data, tone = "light" }) {
   if (!data) return null;
   const dark = tone === "dark";
+  const lines = (t) => (t || "").split("\n");
 
   return (
     <section
-      className={`relative overflow-hidden px-6 py-24 md:py-32 ${
-        dark ? "bg-ink text-cream" : "bg-cream text-ink"
+      className={`relative overflow-hidden px-6 py-20 md:py-28 ${
+        dark ? "bg-ink text-white" : "bg-white text-ink"
       }`}
     >
       <div className="mx-auto max-w-3xl text-center">
-        <Reveal>
-          <div className="flex flex-col items-center gap-1 leading-none">
-            {data.big?.map((word, i) => (
-              <span
-                key={i}
-                className={`font-script text-5xl md:text-7xl ${
-                  i === 1 ? "text-gold" : dark ? "text-blush" : "text-rosegold"
-                }`}
-              >
-                {word}
-              </span>
-            ))}
-          </div>
-        </Reveal>
+        {data.words?.length ? (
+          <Reveal>
+            <div className="mb-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+              {data.words.map((w, i) => (
+                <span
+                  key={i}
+                  className={`font-script text-4xl md:text-6xl ${
+                    dark ? "text-white" : "text-champagne"
+                  }`}
+                >
+                  {w}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+        ) : null}
 
-        <Reveal delay={150}>
-          <div className="divider my-8">
-            <span className="text-gold">♥</span>
-          </div>
-          {data.vi ? (
-            <p className="mx-auto max-w-2xl font-serif text-xl italic leading-relaxed md:text-2xl">
-              “{data.vi}”
-            </p>
-          ) : null}
-          {data.en ? (
-            <p
-              className={`mx-auto mt-4 max-w-xl font-sans text-sm tracking-wide ${
-                dark ? "text-cream/60" : "text-ink/50"
-              }`}
-            >
-              {data.en}
-            </p>
-          ) : null}
-        </Reveal>
+        {data.vi ? (
+          <Reveal delay={100}>
+            <div className="font-serif text-xl italic leading-relaxed md:text-2xl">
+              {lines(data.vi).map((l, i) => (
+                <p key={i}>{l}</p>
+              ))}
+            </div>
+          </Reveal>
+        ) : null}
+
+        {data.en ? (
+          <Reveal delay={180}>
+            <div className={`mt-5 font-sans text-sm tracking-wide ${dark ? "text-white/60" : "text-ink/50"}`}>
+              {lines(data.en).map((l, i) => (
+                <p key={i}>{l}</p>
+              ))}
+            </div>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

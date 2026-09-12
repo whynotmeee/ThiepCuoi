@@ -36,15 +36,30 @@ body {
   content: "";
   height: 1px;
   width: 60px;
-  background: linear-gradient(to right, transparent, #c9a227, transparent);
+  background: linear-gradient(to right, transparent, #baa58a, transparent);
 }
 
 /* Subtle paper texture backdrop */
 .paper {
   background-image: radial-gradient(
       circle at 1px 1px,
-      rgba(183, 110, 121, 0.06) 1px,
+      rgba(186, 165, 138, 0.07) 1px,
       transparent 0
     );
   background-size: 24px 24px;
+}
+
+/* Wobble nhẹ cho icon QR / quà cưới (giống mẫu) */
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}
+.animate-wobble {
+  animation: wobble 2s ease-in-out infinite;
+}
+
+/* Chữ lớn viết tay tiêu đề */
+.big-word {
+  line-height: 1;
 }

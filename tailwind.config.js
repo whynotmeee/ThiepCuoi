@@ -7,16 +7,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: "#fdfbf7",
-        rosegold: "#b76e79",
-        blush: "#f7e7e4",
-        sage: "#8a9a7b",
-        gold: "#c9a227",
-        ink: "#3d3130",
+        cream: "#ffffff",
+        rosegold: "#baa58a",
+        blush: "#f3ede4",
+        sage: "#baa58a",
+        gold: "#baa58a",
+        ink: "#252525",
+        champagne: "#baa58a",
       },
       fontFamily: {
         serif: ["var(--font-cormorant)", "Georgia", "serif"],
         script: ["var(--font-greatvibes)", "cursive"],
+        playfair: ["var(--font-playfair)", "Georgia", "serif"],
         sans: ["var(--font-jost)", "system-ui", "sans-serif"],
       },
       keyframes: {
