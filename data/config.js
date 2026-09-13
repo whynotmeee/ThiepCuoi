@@ -38,7 +38,7 @@ export const config = {
 
   // --- Địa chỉ website sau khi deploy (dùng để tạo link ảnh xem trước khi chia sẻ) ---
   // Ví dụ: "https://thiep-cuoi.vercel.app" (KHÔNG có dấu / ở cuối)
-  siteUrl: "https://thiepcuoi.vercel.app",
+  siteUrl: "https://thiep-cuoi-nu.vercel.app",
 
   // --- Ảnh xem trước khi chia sẻ lên Facebook/Zalo (đặt trong /public) ---
   // Khuyến nghị ảnh 1200x630px. Để trống sẽ không hiện ảnh preview.
