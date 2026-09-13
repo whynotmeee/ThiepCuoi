@@ -11,17 +11,7 @@ export default function Intro() {
 
   const PersonCard = ({ p }) => (
     <div className="flex flex-col items-center">
-      <div className="h-44 w-36 overflow-hidden rounded-2xl bg-gradient-to-br from-blush to-champagne/20 md:h-56 md:w-44">
-        {p.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={p.photo} alt={p.name} className="h-full w-full object-cover" />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-4xl text-champagne/40">
-            ♥
-          </div>
-        )}
-      </div>
-      <p className="mt-4 font-serif text-3xl text-champagne">{p.name}</p>
+      <p className="font-serif text-3xl text-champagne">{p.name}</p>
       <p className="mt-1 font-sans text-xs uppercase tracking-widest text-ink/50">
         {p.role}
       </p>
