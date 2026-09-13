@@ -12,7 +12,7 @@ export const config = {
     role: "Chú rể",
     father: "Ông Triệu Văn Thiềng",
     mother: "Bà Đỗ Thị Kế",
-    photo: "/groom.jpg", // ví dụ "/groom.jpg"
+    photo: "",
   },
   bride: {
     name: "Lã Thuý Hằng",
@@ -20,7 +20,7 @@ export const config = {
     role: "Cô dâu",
     father: "Ông Lã Minh Hải",
     mother: "Bà Nguyễn Thị Hiền",
-    photo: "/bride.jpg", // ví dụ "/bride.jpg"
+    photo: "",
   },
 
   // Thứ tự hiển thị tên: "bride" (cô dâu trước) hoặc "groom"
@@ -69,6 +69,9 @@ export const config = {
   introEn:
     "To Our Family And Friends,\nThank You For Celebrating Our Special Day,\nSupporting Us And Sharing Our Love.",
 
+  // --- Ảnh cô dâu chú rể đặt dưới phần tên (trong "Lời ngỏ") ---
+  coupleImage: "/couple.jpg",
+
   // --- Các câu thơ / trích dẫn điện ảnh xen giữa các phần ---
   quotes: [
     {
@@ -99,7 +102,6 @@ export const config = {
     "/gallery/MRL02000.jpg",
     "/gallery/MRL02193.jpg",
     "/gallery/MRL02208.jpg",
-    "/gallery/MRL02257.jpg",
     "/gallery/MRL02400.jpg",
     "/gallery/MRL02638.jpg",
     "/gallery/Unknown.jpg",

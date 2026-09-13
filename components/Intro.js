@@ -3,7 +3,7 @@ import Reveal from "./Reveal";
 
 // Lời ngỏ + lời cảm ơn tiếng Anh + tên cô dâu chú rể kèm ảnh
 export default function Intro() {
-  const { groom, bride, nameOrder, intro, introEn } = config;
+  const { groom, bride, nameOrder, intro, introEn, coupleImage } = config;
   const first = nameOrder === "bride" ? bride : groom;
   const second = nameOrder === "bride" ? groom : bride;
 
@@ -50,6 +50,19 @@ export default function Intro() {
             <PersonCard p={second} />
           </div>
         </Reveal>
+
+        {coupleImage ? (
+          <Reveal delay={160}>
+            <div className="mx-auto mt-10 max-w-xl overflow-hidden rounded-3xl shadow-sm ring-1 ring-rosegold/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={coupleImage}
+                alt={`${bride.name} & ${groom.name}`}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );
