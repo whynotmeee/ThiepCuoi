@@ -98,3 +98,18 @@ body {
 .big-word {
   line-height: 1;
 }
+
+/* Cánh hoa / trái tim rơi từ trên xuống — định nghĩa trực tiếp để không bị Tailwind purge */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
