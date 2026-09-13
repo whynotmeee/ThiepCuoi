@@ -4,16 +4,41 @@ import { useState } from "react";
 import config from "@/data/config";
 import Reveal from "./Reveal";
 
+// Tạo URL mã QR VietQR từ mã BIN ngân hàng + số tài khoản.
+// Nếu người dùng đã có sẵn ảnh QR (g.qr) thì ưu tiên dùng ảnh đó.
+function getQrSrc(g) {
+  if (g.qr) return g.qr;
+  if (g.bankBin && g.accountNumber) {
+    const params = new URLSearchParams();
+    if (g.accountName) params.set("accountName", g.accountName);
+    const query = params.toString();
+    return `https://img.vietqr.io/image/${g.bankBin}-${g.accountNumber}-compact2.png${
+      query ? `?${query}` : ""
+    }`;
+  }
+  return "";
+}
+
 export default function Gifts() {
   const { gifts } = config;
-  const [copied, setCopied] = useState(null);
+  const [active, setActive] = useState(null); // index hộp quà đang mở
+  const [copied, setCopied] = useState(false);
+
   if (!gifts?.length) return null;
 
-  const copy = (text, key) => {
+  const current = active != null ? gifts[active] : null;
+  const qrSrc = current ? getQrSrc(current) : "";
+
+  const copy = (text) => {
     navigator.clipboard?.writeText(text).then(() => {
-      setCopied(key);
-      setTimeout(() => setCopied(null), 1800);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
     });
+  };
+
+  const close = () => {
+    setActive(null);
+    setCopied(false);
   };
 
   return (
@@ -29,37 +54,92 @@ export default function Gifts() {
           </div>
           <p className="mx-auto max-w-xl font-serif text-lg text-ink/70">
             Sự hiện diện của bạn là món quà quý giá nhất. Nếu muốn gửi lời chúc
-            qua chuyển khoản, đây là thông tin của bọn mình.
+            qua chuyển khoản, hãy chạm vào hộp quà để nhận mã QR.
           </p>
         </Reveal>
 
+        {/* Chỉ hiện các hộp quà, KHÔNG lộ số tài khoản */}
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {gifts.map((g, i) => (
             <Reveal key={i} delay={i * 100}>
-              <div className="rounded-3xl bg-white/80 p-7 text-center shadow-sm ring-1 ring-rosegold/10">
-                <h3 className="font-serif text-2xl font-semibold text-rosegold">
+              <button
+                onClick={() => {
+                  setActive(i);
+                  setCopied(false);
+                }}
+                className="group block w-full rounded-3xl bg-white/80 p-8 text-center shadow-sm ring-1 ring-rosegold/10 transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blush to-champagne/20 text-4xl transition group-hover:scale-110">
+                  🎁
+                </div>
+                <h3 className="mt-5 font-serif text-2xl font-semibold text-rosegold">
                   {g.owner}
                 </h3>
-                <p className="mt-3 font-sans text-sm uppercase tracking-wider text-sage">
-                  {g.bank}
-                </p>
-                <p className="mt-2 font-serif text-2xl tracking-wider text-ink tabular-nums">
-                  {g.accountNumber}
-                </p>
-                <p className="mt-1 font-sans text-sm text-ink/60">
-                  {g.accountName}
-                </p>
-                <button
-                  onClick={() => copy(g.accountNumber, i)}
-                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-rosegold px-6 py-2 font-sans text-sm text-white transition hover:bg-rosegold/90"
-                >
-                  {copied === i ? "Đã sao chép ✓" : "Sao chép số TK"}
-                </button>
-              </div>
+                <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-rosegold px-6 py-2 font-sans text-sm text-white transition group-hover:bg-rosegold/90">
+                  Chạm để nhận mã QR
+                </span>
+              </button>
             </Reveal>
           ))}
         </div>
       </div>
+
+      {/* Popup hiển thị mã QR */}
+      {current ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={close}
+        >
+          <div
+            className="relative w-full max-w-sm rounded-3xl bg-white p-7 text-center shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={close}
+              aria-label="Đóng"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-ink/5 text-ink/60 transition hover:bg-ink/10"
+            >
+              ✕
+            </button>
+
+            <h3 className="font-serif text-2xl font-semibold text-rosegold">
+              {current.owner}
+            </h3>
+            <p className="mt-1 font-sans text-sm uppercase tracking-wider text-sage">
+              {current.bank}
+            </p>
+
+            {qrSrc ? (
+              <div className="mx-auto mt-5 w-56 overflow-hidden rounded-2xl bg-white p-3 ring-1 ring-rosegold/15">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={qrSrc}
+                  alt={`Mã QR chuyển khoản ${current.owner}`}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            ) : (
+              <p className="mt-5 font-sans text-sm text-ink/50">
+                (Chưa cấu hình mã QR)
+              </p>
+            )}
+
+            <p className="mt-5 font-serif text-xl tracking-wider text-ink tabular-nums">
+              {current.accountNumber}
+            </p>
+            <p className="mt-1 font-sans text-sm text-ink/60">
+              {current.accountName}
+            </p>
+
+            <button
+              onClick={() => copy(current.accountNumber)}
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-rosegold px-6 py-2 font-sans text-sm text-white transition hover:bg-rosegold/90"
+            >
+              {copied ? "Đã sao chép ✓" : "Sao chép số TK"}
+            </button>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

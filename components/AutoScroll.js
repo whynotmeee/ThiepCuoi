@@ -6,7 +6,12 @@ import { useEffect, useRef, useState } from "react";
  * Tự động cuộn trang chậm rãi sau khi mở thiệp.
  * - Bắt đầu khi nhận sự kiện "invitation:open".
  * - Người dùng có thể tạm dừng / tiếp tục bằng nút nổi.
- * - Tự dừng nếu người dùng tự cuộn (wheel / touch) hoặc khi tới cuối trang.
+ * - Tự dừng khi người dùng CHỦ ĐỘNG cuộn (vuốt rõ ràng) hoặc khi tới cuối trang.
+ *
+ * Lưu ý tương thích trình duyệt trong ứng dụng (Messenger / Facebook WebView):
+ *  - Không dừng chỉ vì một cú "touchstart" (cú chạm mở thiệp cũng tính là touchstart).
+ *  - Dùng nhiều cách cuộn (window / documentElement / body) vì WebView có thể
+ *    đặt phần tử cuộn khác nhau.
  *
  * Props:
  *  - speed: số pixel cuộn mỗi giây (mặc định 45).
@@ -18,13 +23,49 @@ export default function AutoScroll({ speed = 45, startDelay = 2500 }) {
   const rafRef = useRef(null);
   const lastTsRef = useRef(null);
   const accRef = useRef(0);
+  // Vị trí cuộn kỳ vọng do chính auto-scroll tạo ra (để phân biệt với cuộn thủ công)
+  const expectedYRef = useRef(0);
+  // Toạ độ chạm ban đầu để nhận biết vuốt thật sự
+  const touchStartYRef = useRef(null);
+
+  // Đọc / ghi vị trí cuộn theo cách tương thích nhiều trình duyệt
+  const getScrollY = () =>
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop ||
+    0;
+
+  const scrollByCompat = (dy) => {
+    // Cách chuẩn
+    window.scrollBy(0, dy);
+    // Fallback cho WebView đặt scroller ở documentElement / body
+    const y = getScrollY();
+    if (document.scrollingElement) {
+      document.scrollingElement.scrollTop = y;
+    }
+  };
+
+  const getMaxScroll = () => {
+    const doc = document.documentElement;
+    const body = document.body;
+    const scrollHeight = Math.max(
+      doc.scrollHeight,
+      body.scrollHeight,
+      doc.offsetHeight,
+      body.offsetHeight
+    );
+    return scrollHeight - window.innerHeight;
+  };
 
   // Bắt đầu sau khi mở thiệp
   useEffect(() => {
     let timer;
     const onOpen = () => {
       setVisible(true);
-      timer = setTimeout(() => setActive(true), startDelay);
+      timer = setTimeout(() => {
+        expectedYRef.current = getScrollY();
+        setActive(true);
+      }, startDelay);
     };
     window.addEventListener("invitation:open", onOpen);
     return () => {
@@ -47,21 +88,19 @@ export default function AutoScroll({ speed = 45, startDelay = 2500 }) {
 
     const step = (ts) => {
       if (lastTsRef.current == null) lastTsRef.current = ts;
-      const dt = (ts - lastTsRef.current) / 1000;
+      const dt = Math.min((ts - lastTsRef.current) / 1000, 0.05);
       lastTsRef.current = ts;
 
       accRef.current += speed * dt;
       const whole = Math.floor(accRef.current);
       if (whole >= 1) {
         accRef.current -= whole;
-        window.scrollBy(0, whole);
+        scrollByCompat(whole);
+        // Ghi lại vị trí kỳ vọng để so với cuộn thủ công
+        expectedYRef.current = getScrollY();
       }
 
-      const reachedEnd =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 2;
-
-      if (reachedEnd) {
+      if (getScrollY() >= getMaxScroll() - 2) {
         setActive(false);
         return;
       }
@@ -75,18 +114,49 @@ export default function AutoScroll({ speed = 45, startDelay = 2500 }) {
     };
   }, [active, speed]);
 
-  // Dừng khi người dùng tự tương tác cuộn
+  // Dừng khi người dùng CHỦ ĐỘNG cuộn (không dừng vì cú chạm mở thiệp)
   useEffect(() => {
     if (!active) return;
+
     const stop = () => setActive(false);
+
+    // Chuột / trackpad: cuộn là chủ động -> dừng
+    const onWheel = () => stop();
+
+    // Bàn phím: các phím điều hướng -> dừng
+    const onKeydown = (e) => {
+      const keys = [
+        "ArrowUp",
+        "ArrowDown",
+        "PageUp",
+        "PageDown",
+        "Home",
+        "End",
+        " ",
+      ];
+      if (keys.includes(e.key)) stop();
+    };
+
+    // Cảm ứng: chỉ dừng khi vuốt rõ ràng (di chuyển > 8px), không dừng khi chạm nhẹ
+    const onTouchStart = (e) => {
+      touchStartYRef.current = e.touches?.[0]?.clientY ?? null;
+    };
+    const onTouchMove = (e) => {
+      const y = e.touches?.[0]?.clientY;
+      if (touchStartYRef.current == null || y == null) return;
+      if (Math.abs(y - touchStartYRef.current) > 8) stop();
+    };
+
     const opts = { passive: true };
-    window.addEventListener("wheel", stop, opts);
-    window.addEventListener("touchstart", stop, opts);
-    window.addEventListener("keydown", stop);
+    window.addEventListener("wheel", onWheel, opts);
+    window.addEventListener("keydown", onKeydown);
+    window.addEventListener("touchstart", onTouchStart, opts);
+    window.addEventListener("touchmove", onTouchMove, opts);
     return () => {
-      window.removeEventListener("wheel", stop, opts);
-      window.removeEventListener("touchstart", stop, opts);
-      window.removeEventListener("keydown", stop);
+      window.removeEventListener("wheel", onWheel, opts);
+      window.removeEventListener("keydown", onKeydown);
+      window.removeEventListener("touchstart", onTouchStart, opts);
+      window.removeEventListener("touchmove", onTouchMove, opts);
     };
   }, [active]);
 
@@ -96,6 +166,7 @@ export default function AutoScroll({ speed = 45, startDelay = 2500 }) {
     <button
       onClick={() => {
         lastTsRef.current = null;
+        expectedYRef.current = getScrollY();
         setActive((v) => !v);
       }}
       aria-label={active ? "Tạm dừng tự cuộn" : "Tự động cuộn"}

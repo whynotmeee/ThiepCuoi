@@ -36,13 +36,41 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const siteTitle = `Thiệp cưới ${config.groom.name} & ${config.bride.name}`;
+// Mô tả ngắn gọn (bỏ xuống dòng) để hiển thị đẹp trên thẻ chia sẻ
+const shareDescription = (config.intro || "")
+  .replace(/\s+/g, " ")
+  .trim()
+  .slice(0, 200);
+
 export const metadata = {
-  title: `Thiệp cưới ${config.groom.name} & ${config.bride.name}`,
-  description: config.intro,
+  // Cần thiết để Next.js tạo URL tuyệt đối cho ảnh khi chia sẻ
+  metadataBase: config.siteUrl ? new URL(config.siteUrl) : undefined,
+  title: siteTitle,
+  description: shareDescription,
   openGraph: {
-    title: `Thiệp cưới ${config.groom.name} & ${config.bride.name}`,
-    description: config.intro,
+    title: siteTitle,
+    description: shareDescription,
     type: "website",
+    locale: "vi_VN",
+    url: config.siteUrl || undefined,
+    siteName: siteTitle,
+    images: config.ogImage
+      ? [
+          {
+            url: config.ogImage,
+            width: 1200,
+            height: 630,
+            alt: siteTitle,
+          },
+        ]
+      : undefined,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: shareDescription,
+    images: config.ogImage ? [config.ogImage] : undefined,
   },
 };
 
