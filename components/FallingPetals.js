@@ -29,7 +29,7 @@ export default function FallingPetals({ count = 16 }) {
             className="absolute top-[-40px] block leading-none"
             style={{
               left: `${p.left}%`,
-              fontSize: `${p.size + 12}px`,
+              fontSize: `${p.size + 2}px`,
               color: "#ff1e27",
               opacity: p.opacity,
               animation: `floatUp ${p.duration}s linear ${p.delay}s infinite`,
