@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import config from "@/data/config";
 import Reveal from "./Reveal";
 
 export default function Rsvp() {
@@ -11,21 +12,55 @@ export default function Rsvp() {
     wish: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lưu tạm vào localStorage (không cần backend).
-    // Bạn có thể thay bằng Google Form / API sau này.
+    setSending(true);
+
+    const rsvp = config.rsvp;
+
+    // Gửi dữ liệu vào Google Form (nếu đã cấu hình)
+    if (rsvp?.formId && rsvp?.fields) {
+      try {
+        const data = new FormData();
+        data.append(rsvp.fields.name, form.name);
+        data.append(
+          rsvp.fields.attend,
+          form.attend === "yes" ? rsvp.attendYes : rsvp.attendNo
+        );
+        // Chỉ gửi số người khi có tham dự
+        data.append(
+          rsvp.fields.guests,
+          form.attend === "yes" ? form.guests : ""
+        );
+        data.append(rsvp.fields.wish, form.wish);
+
+        const url = `https://docs.google.com/forms/d/e/${rsvp.formId}/formResponse`;
+        // no-cors: Google Form không trả CORS, nhưng vẫn ghi nhận được dữ liệu
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          body: data,
+        });
+      } catch (_) {
+        // Bỏ qua lỗi mạng — vẫn hiển thị lời cảm ơn để trải nghiệm mượt
+      }
+    }
+
+    // Lưu bản sao vào localStorage phòng khi cần đối chiếu
     try {
       const key = "rsvp_responses";
       const prev = JSON.parse(localStorage.getItem(key) || "[]");
       prev.push({ ...form, at: new Date().toISOString() });
       localStorage.setItem(key, JSON.stringify(prev));
     } catch (_) {}
+
+    setSending(false);
     setSubmitted(true);
   };
 
@@ -121,9 +156,10 @@ export default function Rsvp() {
 
               <button
                 type="submit"
-                className="w-full rounded-full bg-rosegold py-3 font-sans text-base text-white transition hover:bg-rosegold/90"
+                disabled={sending}
+                className="w-full rounded-full bg-rosegold py-3 font-sans text-base text-white transition hover:bg-rosegold/90 disabled:opacity-60"
               >
-                Gửi xác nhận
+                {sending ? "Đang gửi..." : "Gửi xác nhận"}
               </button>
             </form>
           )}

@@ -164,6 +164,24 @@ export const config = {
   thankYou:
     "Cảm ơn bạn đã dành thời gian ghé thăm thiệp cưới của bọn mình. Rất mong được gặp bạn trong ngày vui này!",
   hashtag: "#DungHang2026",
+
+  // --- Xác nhận tham dự (RSVP) gửi vào Google Form ---
+  // Dữ liệu khách gửi sẽ đổ vào Google Sheets của form bên dưới.
+  rsvp: {
+    // ID form (phần giữa /d/e/ và /viewform trong link)
+    formId:
+      "1FAIpQLSf8ZFGa1_S9dwbvTr86v8OsNMJpWWFhVcQ7aGd-AGa6e6eJeg",
+    // Mã field tương ứng từng câu hỏi trong Google Form
+    fields: {
+      name: "entry.1717183105", // Họ và tên
+      attend: "entry.155697607", // Bạn sẽ tham dự chứ?
+      guests: "entry.1334527127", // Số người tham dự
+      wish: "entry.619460324", // Lời chúc
+    },
+    // Giá trị lựa chọn PHẢI khớp CHÍNH XÁC với đáp án trong Google Form
+    attendYes: "Có, tôi sẽ đến",
+    attendNo: "Rất tiếc, tôi không thể đến",
+  },
 };
 
 export default config;
