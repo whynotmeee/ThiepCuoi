@@ -7,7 +7,7 @@
 export const config = {
   // --- Tên cô dâu chú rể ---
   groom: {
-    name: "Triệu Dũng",
+    name: "Triệu Văn Dũng",
     fullName: "Triệu Văn Dũng",
     role: "Chú rể",
     father: "Ông Triệu Văn Thiềng",
@@ -15,8 +15,8 @@ export const config = {
     photo: "/groom.jpg", // ví dụ "/groom.jpg"
   },
   bride: {
-    name: "Lã Hằng",
-    fullName: "Lã Thị Hằng",
+    name: "Lã Thuý Hằng",
+    fullName: "Lã Thuý Hằng",
     role: "Cô dâu",
     father: "Ông Lã Minh Hải",
     mother: "Bà Nguyễn Thị Hiền",
