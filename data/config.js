@@ -27,11 +27,11 @@ export const config = {
   nameOrder: "bride",
 
   // --- Ngày & giờ cưới (định dạng: YYYY-MM-DDTHH:mm:ss) dùng cho đếm ngược & lịch ---
-  weddingDate: "2026-09-20T11:00:00",
+  weddingDate: "2026-09-19T16:30:00",
 
   // --- Dòng chữ ngày hiển thị ở bìa (giống mẫu) ---
-  dateLine1: "Chủ Nhật, 20/12/2026",
-  dateLine2: "Âm lịch 2/11 | 11:00 AM",
+  dateLine1: "Thứ bảy, 19/09/2026",
+  dateLine2: "Âm lịch 09/08 | 16:30",
 
   // --- Ảnh nền trang bìa (đặt trong /public). Để trống dùng gradient ---
   coverImage: "/cover.jpg",
@@ -55,8 +55,12 @@ export const config = {
     lunar: "(Nhằm ngày 09 tháng 08 năm Bính Ngọ)",
     placeHeading: "HÔN LỄ ĐƯỢC CỬ HÀNH TẠI",
     placeBig: "TƯ GIA NHÀ GÁI",
-    placeAddress: "Số 12, Đường ABC, Phường X, TP. Hà Nội",
-    mapUrl: "https://maps.google.com/?q=Hanoi",
+    placeAddress: "Đình Cam Đà, Đường Xã Quảng Oai, TP. Hà Nội",
+    mapUrl: "https://maps.app.goo.gl/Y76CUfxmP4FiGSMBA",
+    // Bản đồ nhúng: để trống sẽ tự tạo từ placeAddress.
+    // Nếu muốn chính xác hơn, vào Google Maps > Chia sẻ > Nhúng bản đồ,
+    // copy phần link trong src="..." của iframe rồi dán vào đây.
+    mapEmbed: "",
   },
 
   // --- Lời ngỏ ---
@@ -128,23 +132,9 @@ export const config = {
   // --- Thông tin mừng cưới / hộp quà cưới ---
   gifts: [
     {
-      owner: "Chú rể - Triệu Dũng",
-      bank: "Vietcombank",
-      accountNumber: "0123456789",
-      accountName: "TRIEU VAN DUNG",
-      // Mã BIN ngân hàng để tự sinh mã QR VietQR (xem danh sách BIN bên dưới).
-      bankBin: "970436", // Vietcombank
-      // Nếu bạn đã có sẵn ẢNH mã QR, đặt vào /public rồi điền tại đây,
-      // ví dụ "/qr-groom.png". Có ảnh này sẽ ưu tiên dùng thay cho VietQR tự sinh.
-      qr: "",
-    },
-    {
-      owner: "Cô dâu - Lã Hằng",
-      bank: "Techcombank",
-      accountNumber: "9876543210",
-      accountName: "LA THI HANG",
-      bankBin: "970407", // Techcombank
-      qr: "",
+      owner: "Cô dâu - Lã Thuý Hằng",
+      bank: "MB Bank",
+      qr: "/qr-bride.jpg", // Dùng ảnh QR có sẵn
     },
   ],
 

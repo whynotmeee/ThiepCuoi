@@ -3,7 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 
 // Bọc nội dung để tạo hiệu ứng hiện dần khi cuộn tới
-export default function Reveal({ children, className = "", delay = 0 }) {
+export default function Reveal({
+  children,
+  className = "",
+  delay = 0,
+  variant = "default",
+}) {
+  const baseClass = variant === "zoom" ? "reveal-zoom" : "reveal";
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -28,7 +34,7 @@ export default function Reveal({ children, className = "", delay = 0 }) {
   return (
     <div
       ref={ref}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`${baseClass} ${visible ? "is-visible" : ""} ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}

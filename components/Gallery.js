@@ -36,7 +36,7 @@ export default function Gallery() {
 
         <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
           {items.map((src, i) => (
-            <Reveal key={i} delay={(i % 3) * 100}>
+            <Reveal key={i} delay={(i % 3) * 120} variant="zoom">
               {src ? (
                 <button
                   onClick={() => setActive(src)}
@@ -46,7 +46,7 @@ export default function Gallery() {
                   <img
                     src={src}
                     alt={`Ảnh cưới ${i + 1}`}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    className="gallery-img h-full w-full object-cover group-hover:scale-105"
                   />
                 </button>
               ) : (

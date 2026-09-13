@@ -9,6 +9,15 @@ export default function InvitationDetails() {
 
   const lines = (t) => (t || "").split("\n");
 
+  // Nguồn bản đồ nhúng: ưu tiên mapEmbed, nếu không thì tự tạo từ địa chỉ.
+  const mapSrc = inv.mapEmbed
+    ? inv.mapEmbed
+    : inv.placeAddress
+    ? `https://maps.google.com/maps?q=${encodeURIComponent(
+        inv.placeAddress
+      )}&hl=vi&z=16&output=embed`
+    : "";
+
   return (
     <section className="paper bg-white px-6 py-16 md:py-24">
       <div className="mx-auto max-w-2xl text-center">
@@ -59,6 +68,23 @@ export default function InvitationDetails() {
             >
               Xem đường đi
             </a>
+          </Reveal>
+        ) : null}
+
+        {mapSrc ? (
+          <Reveal delay={200}>
+            <div className="mt-8 overflow-hidden rounded-3xl shadow-sm ring-1 ring-rosegold/10">
+              <iframe
+                title="Bản đồ địa điểm tổ chức"
+                src={mapSrc}
+                width="100%"
+                height="320"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </Reveal>
         ) : null}
       </div>

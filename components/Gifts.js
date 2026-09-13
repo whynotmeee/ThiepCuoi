@@ -22,24 +22,13 @@ function getQrSrc(g) {
 export default function Gifts() {
   const { gifts } = config;
   const [active, setActive] = useState(null); // index hộp quà đang mở
-  const [copied, setCopied] = useState(false);
 
   if (!gifts?.length) return null;
 
   const current = active != null ? gifts[active] : null;
   const qrSrc = current ? getQrSrc(current) : "";
 
-  const copy = (text) => {
-    navigator.clipboard?.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    });
-  };
-
-  const close = () => {
-    setActive(null);
-    setCopied(false);
-  };
+  const close = () => setActive(null);
 
   return (
     <section className="bg-sage/10 px-6 py-16 md:py-24">
@@ -59,14 +48,15 @@ export default function Gifts() {
         </Reveal>
 
         {/* Chỉ hiện các hộp quà, KHÔNG lộ số tài khoản */}
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div className="mt-10 flex flex-wrap justify-center gap-6">
           {gifts.map((g, i) => (
-            <Reveal key={i} delay={i * 100}>
+            <Reveal
+              key={i}
+              delay={i * 100}
+              className="w-full max-w-sm"
+            >
               <button
-                onClick={() => {
-                  setActive(i);
-                  setCopied(false);
-                }}
+                onClick={() => setActive(i)}
                 className="group block w-full rounded-3xl bg-white/80 p-8 text-center shadow-sm ring-1 ring-rosegold/10 transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blush to-champagne/20 text-4xl transition group-hover:scale-110">
@@ -110,7 +100,7 @@ export default function Gifts() {
             </p>
 
             {qrSrc ? (
-              <div className="mx-auto mt-5 w-56 overflow-hidden rounded-2xl bg-white p-3 ring-1 ring-rosegold/15">
+              <div className="mx-auto mt-5 w-64 overflow-hidden rounded-2xl bg-white p-3 ring-1 ring-rosegold/15">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={qrSrc}
@@ -124,19 +114,9 @@ export default function Gifts() {
               </p>
             )}
 
-            <p className="mt-5 font-serif text-xl tracking-wider text-ink tabular-nums">
-              {current.accountNumber}
+            <p className="mt-4 font-sans text-sm text-ink/50">
+              Quét mã QR để gửi lời chúc mừng
             </p>
-            <p className="mt-1 font-sans text-sm text-ink/60">
-              {current.accountName}
-            </p>
-
-            <button
-              onClick={() => copy(current.accountNumber)}
-              className="mt-5 inline-flex items-center gap-2 rounded-full bg-rosegold px-6 py-2 font-sans text-sm text-white transition hover:bg-rosegold/90"
-            >
-              {copied ? "Đã sao chép ✓" : "Sao chép số TK"}
-            </button>
           </div>
         </div>
       ) : null}
