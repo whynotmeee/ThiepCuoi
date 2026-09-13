@@ -56,7 +56,7 @@ export const config = {
     placeHeading: "HÔN LỄ ĐƯỢC CỬ HÀNH TẠI",
     placeBig: "TƯ GIA NHÀ GÁI",
     placeAddress: "Đình Cam Đà, Đường Xã Quảng Oai, TP. Hà Nội",
-    mapUrl: "https://maps.app.goo.gl/Y76CUfxmP4FiGSMBA",
+    mapUrl: "https://www.google.com/maps/place/Đình+Cam+Đà/@21.161951,105.4611989,15.75z/data=!4m6!3m5!1s0x3134f5a22b9b739f:0xac2bec15fbee5c51!8m2!3d21.1629283!4d105.4598331!16s%2Fg%2F11cnb_l6h9?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D",
     // Bản đồ nhúng: để trống sẽ tự tạo từ placeAddress.
     // Nếu muốn chính xác hơn, vào Google Maps > Chia sẻ > Nhúng bản đồ,
     // copy phần link trong src="..." của iframe rồi dán vào đây.
